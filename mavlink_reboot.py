@@ -7,6 +7,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('hostname', nargs='?', default='192.168.11.1',
                         help="Filename of route csv table")
+    parser.add_argument('--tries', default=3, type=int,
+                        help="Number of tries, default is 3")
+
     args = parser.parse_args()
 
     # Start a connection listening to a UDP port
@@ -17,4 +20,5 @@ if __name__ == "__main__":
     the_connection.wait_heartbeat()
     print("Heartbeat from {}: system {} component {}".format(args.hostname, the_connection.target_system, the_connection.target_system))
 
-    the_connection.reboot_autopilot()
+    for i in range(args.tries):
+        the_connection.reboot_autopilot()
