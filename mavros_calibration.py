@@ -1,6 +1,5 @@
 import rospy
 import argparse
-import time
 from mavros_msgs.srv import CommandLong
 from mavros_msgs.msg import State
 from pymavlink.dialects.v20 import common as mavlink
