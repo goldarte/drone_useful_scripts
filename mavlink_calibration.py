@@ -85,7 +85,7 @@ def wait_heartbeat(connection, timeout_to_reconnect=2.):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Send calibration command to mavlink device. Options are: gyro or level.')
     parser.add_argument('hostname', nargs='?', default='192.168.11.1',
                         help="Address for connection")
     parser.add_argument('--port', default=5760, type=int,
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     parser.add_argument('--tries', default=10, type=int,
                         help="Number of tries, default is 3")
     parser.add_argument('--sensor', default='gyro', type=str,
-                        help="Sensor to calibrate. Available are gyro or level.")
+                        help="Sensor to calibrate. Available are gyro or level. Default is gyro.")
 
 
     # Assemble connection string
