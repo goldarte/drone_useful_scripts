@@ -1,25 +1,5 @@
-from pymavlink import mavutil
+from pymavlink_wrapper import *
 import argparse
-import time
-from mavlink_calibration import set_connection, wait_heartbeat, check_ack
-
-def reboot(connection, delay=0.01, wait_ack=True, timeout=2.):
-    print('Send reboot message')
-    ack = False
-    start_time = time.time()
-    confirmation = 0
-    while not ack:
-        connection.reboot_autopilot()
-        if wait_ack:
-            print('Send MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, attempt {}'.format(confirmation))
-            ack = check_ack(mavutil.mavlink.MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, connection) or not wait_ack
-            confirmation = (confirmation + 1) % 255
-            if time.time() - start_time > timeout:
-                print('Send calibration start is timed out, try to reconnect')
-                connection.reconnect()
-                start_time = time.time()
-        else: 
-            ack = True
 
 if __name__ == "__main__":
 
@@ -39,4 +19,6 @@ if __name__ == "__main__":
     connection, heartbeat = set_connection(connection_string)
     print("Got heartbeat from {}: system {} component {}".format(args.hostname, connection.target_system, connection.target_system))
 
-    reboot(connection)
+    send_msg_reboot(connection)
+
+    connection.close()
